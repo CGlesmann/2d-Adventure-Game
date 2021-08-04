@@ -84,57 +84,111 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                     ""isPartOfComposite"": true
                 },
                 {
-                    ""name"": ""Gamepad_LeftStick"",
-                    ""id"": ""0471c622-ec4d-4dc7-b95a-a5ec35803ade"",
-                    ""path"": ""2DVector"",
+                    ""name"": """",
+                    ""id"": ""76f4c7da-8bfb-43d4-b086-33e5088a1108"",
+                    ""path"": ""<Gamepad>/leftStick"",
+                    ""interactions"": """",
+                    ""processors"": ""NormalizeVector2,StickDeadzone"",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Walking"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""Interaction"",
+            ""id"": ""d1b22104-1e12-4ba4-b634-4d13f28f5fe0"",
+            ""actions"": [
+                {
+                    ""name"": ""NPC_Interact"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""da245902-c650-4c0f-a640-63afa1a84c23"",
+                    ""expectedControlType"": ""Analog"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""f2b5f941-8402-4893-91f8-fcce98e26275"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard_Mouse"",
+                    ""action"": ""NPC_Interact"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""72c339dd-b13f-488d-bbd6-07a9c8e6a101"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""NPC_Interact"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""UI"",
+            ""id"": ""342b9810-e425-4e84-8488-499b02fc57a3"",
+            ""actions"": [
+                {
+                    ""name"": ""ScrollOptions"",
+                    ""type"": ""Value"",
+                    ""id"": ""9bb928b1-d94f-489d-b666-5e462f75324a"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """"
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""46e4c87c-f848-4d4b-a595-a80dad2909d5"",
+                    ""path"": ""<Gamepad>/leftStick/y"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""ScrollOptions"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""Keyboard_WASD"",
+                    ""id"": ""96177635-1b2e-450a-add1-8bcf47b30753"",
+                    ""path"": ""1DAxis"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Walking"",
+                    ""action"": ""ScrollOptions"",
                     ""isComposite"": true,
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": ""up"",
-                    ""id"": ""df06f289-3b71-4cfe-8a38-5121fb668fc4"",
-                    ""path"": ""<Gamepad>/leftStick/up"",
+                    ""name"": ""negative"",
+                    ""id"": ""7c9256a7-c653-4b34-8e21-749916690f48"",
+                    ""path"": ""<Keyboard>/s"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""Walking"",
+                    ""groups"": """",
+                    ""action"": ""ScrollOptions"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
                 {
-                    ""name"": ""down"",
-                    ""id"": ""ca57bfdc-0afa-45d8-abed-226b3debf491"",
-                    ""path"": ""<Gamepad>/leftStick/down"",
+                    ""name"": ""positive"",
+                    ""id"": ""e40c2f46-eff4-438f-b931-15f164ea7cae"",
+                    ""path"": ""<Keyboard>/w"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""Walking"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""left"",
-                    ""id"": ""41a2a9a8-eb15-4685-b9b1-10a5ade1e1d4"",
-                    ""path"": ""<Gamepad>/leftStick/left"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""Walking"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""right"",
-                    ""id"": ""0d60843d-de98-41ed-9b55-519c1fa69124"",
-                    ""path"": ""<Gamepad>/leftStick/right"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""Walking"",
+                    ""groups"": ""Keyboard_Mouse"",
+                    ""action"": ""ScrollOptions"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 }
@@ -174,6 +228,12 @@ public class @PlayerInput : IInputActionCollection, IDisposable
         // Movement
         m_Movement = asset.FindActionMap("Movement", throwIfNotFound: true);
         m_Movement_Walking = m_Movement.FindAction("Walking", throwIfNotFound: true);
+        // Interaction
+        m_Interaction = asset.FindActionMap("Interaction", throwIfNotFound: true);
+        m_Interaction_NPC_Interact = m_Interaction.FindAction("NPC_Interact", throwIfNotFound: true);
+        // UI
+        m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
+        m_UI_ScrollOptions = m_UI.FindAction("ScrollOptions", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -252,6 +312,72 @@ public class @PlayerInput : IInputActionCollection, IDisposable
         }
     }
     public MovementActions @Movement => new MovementActions(this);
+
+    // Interaction
+    private readonly InputActionMap m_Interaction;
+    private IInteractionActions m_InteractionActionsCallbackInterface;
+    private readonly InputAction m_Interaction_NPC_Interact;
+    public struct InteractionActions
+    {
+        private @PlayerInput m_Wrapper;
+        public InteractionActions(@PlayerInput wrapper) { m_Wrapper = wrapper; }
+        public InputAction @NPC_Interact => m_Wrapper.m_Interaction_NPC_Interact;
+        public InputActionMap Get() { return m_Wrapper.m_Interaction; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(InteractionActions set) { return set.Get(); }
+        public void SetCallbacks(IInteractionActions instance)
+        {
+            if (m_Wrapper.m_InteractionActionsCallbackInterface != null)
+            {
+                @NPC_Interact.started -= m_Wrapper.m_InteractionActionsCallbackInterface.OnNPC_Interact;
+                @NPC_Interact.performed -= m_Wrapper.m_InteractionActionsCallbackInterface.OnNPC_Interact;
+                @NPC_Interact.canceled -= m_Wrapper.m_InteractionActionsCallbackInterface.OnNPC_Interact;
+            }
+            m_Wrapper.m_InteractionActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @NPC_Interact.started += instance.OnNPC_Interact;
+                @NPC_Interact.performed += instance.OnNPC_Interact;
+                @NPC_Interact.canceled += instance.OnNPC_Interact;
+            }
+        }
+    }
+    public InteractionActions @Interaction => new InteractionActions(this);
+
+    // UI
+    private readonly InputActionMap m_UI;
+    private IUIActions m_UIActionsCallbackInterface;
+    private readonly InputAction m_UI_ScrollOptions;
+    public struct UIActions
+    {
+        private @PlayerInput m_Wrapper;
+        public UIActions(@PlayerInput wrapper) { m_Wrapper = wrapper; }
+        public InputAction @ScrollOptions => m_Wrapper.m_UI_ScrollOptions;
+        public InputActionMap Get() { return m_Wrapper.m_UI; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(UIActions set) { return set.Get(); }
+        public void SetCallbacks(IUIActions instance)
+        {
+            if (m_Wrapper.m_UIActionsCallbackInterface != null)
+            {
+                @ScrollOptions.started -= m_Wrapper.m_UIActionsCallbackInterface.OnScrollOptions;
+                @ScrollOptions.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnScrollOptions;
+                @ScrollOptions.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnScrollOptions;
+            }
+            m_Wrapper.m_UIActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @ScrollOptions.started += instance.OnScrollOptions;
+                @ScrollOptions.performed += instance.OnScrollOptions;
+                @ScrollOptions.canceled += instance.OnScrollOptions;
+            }
+        }
+    }
+    public UIActions @UI => new UIActions(this);
     private int m_Keyboard_MouseSchemeIndex = -1;
     public InputControlScheme Keyboard_MouseScheme
     {
@@ -273,5 +399,13 @@ public class @PlayerInput : IInputActionCollection, IDisposable
     public interface IMovementActions
     {
         void OnWalking(InputAction.CallbackContext context);
+    }
+    public interface IInteractionActions
+    {
+        void OnNPC_Interact(InputAction.CallbackContext context);
+    }
+    public interface IUIActions
+    {
+        void OnScrollOptions(InputAction.CallbackContext context);
     }
 }
