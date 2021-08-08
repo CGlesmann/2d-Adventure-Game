@@ -1,57 +1,34 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class DialogueInteraction : BaseInteraction
 {
-    [Header("Dialogue Settings")]
-    [SerializeField] private DialogueConversation conversation;
-
     [Header("Object References")]
     [SerializeField] private DialogueTextManager dialogueTextManager;
 
-    [Header("Input Settings")]
-    [SerializeField] private InputAction progressAction;
+    [Header("Dialogue Settings")]
+    [SerializeField] private DialogueConversation conversation;
 
-    private int currentNodeIndex = -1;
-    private bool dialogueInProgress = false;
+    private int currentNodeIndex;
 
-    public override void OnInteractionBegin()
+    public override void BeginInteraction()
     {
-        if (!dialogueInProgress)
-        {
-            dialogueTextManager.EnableDiagloueUI();
-            //dialogueTextManager.UpdateDialogueText(conversation.conversationNodes[currentNodeIndex].nodeText);
+        currentNodeIndex = -1;
 
-            dialogueInProgress = true;
-            progressAction.performed += ProgressDialogue;
-            progressAction.Enable();
-        }
+        dialogueTextManager.UpdateDialogueText(GetNextConversationNodeText());
+        dialogueTextManager.EnableDiagloueUI();
     }
 
-    public void ProgressDialogue(InputAction.CallbackContext context)
+    public override void ProgressInteraction()
     {
-        if (dialogueInProgress)
-        {
-            float inputValue = context.ReadValue<float>();
-
-            Debug.Log(inputValue);
-            if (inputValue == 1)
-            {
-                if (currentNodeIndex + 1 == conversation.conversationNodes.Count)
-                {
-                    dialogueTextManager.DisableDiagloueUI();
-                    dialogueInProgress = false;
-
-                    progressAction.performed -= ProgressDialogue;
-                    progressAction.Disable();
-                }
-                else
-                {
-                    dialogueTextManager.UpdateDialogueText(conversation.conversationNodes[++currentNodeIndex].nodeText);
-                }
-            }
-        }
+        dialogueTextManager.UpdateDialogueText(GetNextConversationNodeText());
+        return;
     }
+
+    public override bool IsInteractionComplete() { return IsOnLastConversationNode(); }
+    public override void EndInteraction() { dialogueTextManager.DisableDiagloueUI(); }
+
+    private bool IsOnLastConversationNode() { return (currentNodeIndex + 1 == conversation.conversationNodes.Count); }
+    private string GetNextConversationNodeText() { return conversation.conversationNodes[++currentNodeIndex].nodeText; }
 }

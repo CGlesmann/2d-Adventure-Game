@@ -4,52 +4,31 @@ using UnityEngine;
 
 public class InteractionManager : MonoBehaviour
 {
-    public delegate void OnInteractionEnd();
-    public event OnInteractionEnd onInteractionEnd;
-
+    [Header("Object References")]
     public GameObject interactionOptionManagerObject;
 
     private Component[] interactions;
     private InteractionOptionManager interactionOptionManager;
 
-    private void Awake() 
+    public void EnableInteractionSelectionPanel() { interactionOptionManagerObject.SetActive(true); }
+    public void DisableInteractionSelectionPanel() { interactionOptionManagerObject.SetActive(false); }
+
+    private void Awake()
     {
         interactionOptionManager = interactionOptionManagerObject.GetComponent<InteractionOptionManager>();
         interactions = this.GetComponents(typeof(BaseInteraction));
 
         foreach (BaseInteraction interaction in interactions)
         {
-            interactionOptionManager.AddNewInteractionOption(interaction.interactionDisplayText, interaction.OnInteractionBegin);
+            interactionOptionManager.AddNewInteractionOption(interaction.interactionDisplayText, interaction);
         }
 
-        DisableInteractionPanel();
+        DisableInteractionSelectionPanel();
     }
 
-    public void EnableInteractionPanel() 
+    public BaseInteraction SelectCurrentlyHighlightedInteraction()
     {
-        interactionOptionManagerObject.SetActive(true);
-    }
-
-    public void DisableInteractionPanel() 
-    {
-        interactionOptionManagerObject.SetActive(false);
-    }
-
-    public void ExecuteCurrentlySelectedInteraction()
-    {
-        InteractionOptionText currentlySelectedOption = interactionOptionManager.GetCurrentlySelectedInteractionOption();
-
-        DisableInteractionPanel();
-        currentlySelectedOption.SelectOption();
-    }
-
-    public void FinishInteraction()
-    {
-        if (onInteractionEnd != null)
-        {
-            onInteractionEnd();
-        }
-
-        DisableInteractionPanel();
+        DisableInteractionSelectionPanel();
+        return interactionOptionManager.GetCurrentlySelectedInteractionOption();
     }
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ShopInteraction : BaseInteraction
 {
-    public override void OnInteractionBegin()
+    public override void BeginInteraction()
     {
         Debug.Log("Open Shop");
     }

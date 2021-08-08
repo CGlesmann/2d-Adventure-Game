@@ -1,21 +1,25 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class BaseInteraction : MonoBehaviour
 {
     [Header("Base Interaction Settings")]
     public string interactionDisplayText;
 
-    public virtual void OnInteractionBegin() 
-    {
-        Debug.Log("Starting Interaction");
-        return;
-    }
+    [Header("Event Refrences")]
+    [SerializeField] private UnityEvent onInteractionEnd;
 
-    public virtual void OnInteractionEnd() 
+    public virtual void BeginInteraction() { return; }
+
+    public virtual void ProgressInteraction() { return; }
+
+    public virtual bool IsInteractionComplete() { return true; }
+
+    public virtual void EndInteraction()
     {
-        Debug.Log("Ending Interaction");
+        onInteractionEnd?.Invoke();
         return;
     }
-}   
+}

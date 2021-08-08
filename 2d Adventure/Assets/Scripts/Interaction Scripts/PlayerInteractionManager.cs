@@ -5,13 +5,18 @@ using UnityEngine.InputSystem;
 
 public class PlayerInteractionManager : MonoBehaviour
 {
+    [Header("Interaction Settings")]
+    [SerializeField] private LayerMask interactionLayer;
+
     private PlayerInputManager inputManager;
     private PlayerMovement playerMovement;
     private InteractionManager interactionManager;
+    private BaseInteraction selectedInteraction;
 
+    private bool interactionSelectionInProgress;
     private bool interactionInProgress;
 
-    private void Awake() 
+    private void Awake()
     {
         inputManager = GetComponent<PlayerInputManager>();
         playerMovement = GetComponent<PlayerMovement>();
@@ -19,46 +24,74 @@ public class PlayerInteractionManager : MonoBehaviour
         inputManager.SubscribeToInputActionEvent("NPC_Interact", OnInteract);
     }
 
-    private void OnTriggerEnter2D(Collider2D other) 
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        InteractionManager interactionManager = other.GetComponent<InteractionManager>();
-        if (interactionManager == null)
+        if (interactionLayer == (interactionLayer | (1 << other.gameObject.layer)))
         {
-            Debug.LogError($"Couldn't find an interaction manager on {other.name}");
-            return;
-        }
+            InteractionManager interactionManager = other.GetComponent<InteractionManager>();
+            if (interactionManager == null)
+            {
+                Debug.LogError($"Couldn't find an interaction manager on {other.name}");
+                return;
+            }
 
-        this.interactionManager = interactionManager;
+            this.interactionManager = interactionManager;
+        }
     }
 
-    private void OnTriggerExit2D(Collider2D other) 
+    private void OnTriggerExit2D(Collider2D other)
     {
-        this.interactionManager = null;
+        if (interactionLayer == (interactionLayer | (1 << other.gameObject.layer)))
+        {
+            if (this.interactionManager != null && this.interactionManager == other.GetComponent<InteractionManager>())
+            {
+                this.interactionManager = null;
+            }
+        }
     }
 
     private void OnInteract(InputAction.CallbackContext context)
     {
         if (context.ReadValue<float>() == 1)
         {
-            Debug.Log($"OnInteract");
-            if (!interactionInProgress && interactionManager != null)
+            // First NPC Interact
+            if (!interactionInProgress && !interactionSelectionInProgress)
             {
                 playerMovement.DisableWalking();
-                interactionManager.EnableInteractionPanel();
+                interactionManager.EnableInteractionSelectionPanel();
 
-                interactionInProgress = true;
+                interactionSelectionInProgress = true;
+                return;
             }
-            else if (interactionManager != null)
+
+            // Select an Option
+            if (interactionSelectionInProgress)
             {
-                interactionManager.onInteractionEnd += OnInteractionFinish;
-                interactionManager.ExecuteCurrentlySelectedInteraction();
+                selectedInteraction = interactionManager.SelectCurrentlyHighlightedInteraction();
+                selectedInteraction.BeginInteraction();
+
+                interactionSelectionInProgress = false;
+                interactionInProgress = true;
+
+                return;
+            }
+
+            // Progress Interaction
+            if (interactionInProgress)
+            {
+                if (selectedInteraction.IsInteractionComplete())
+                {
+                    selectedInteraction.EndInteraction();
+
+                    interactionInProgress = false;
+                    playerMovement.EnableWalking();
+
+                    return;
+                }
+
+                selectedInteraction.ProgressInteraction();
+                return;
             }
         }
-    }
-
-    public void OnInteractionFinish()
-    {
-        interactionInProgress = false;
-        playerMovement.EnableWalking();
     }
 }

@@ -5,8 +5,6 @@ using UnityEngine.InputSystem;
 
 public class InteractionOptionManager : MonoBehaviour
 {
-    public delegate void OnInteractionSelect();
-
     [Header("Interaction Option Manager")]
     public GameObject interactionOptionPrefab;
     public GameObject interactionParent;
@@ -14,7 +12,7 @@ public class InteractionOptionManager : MonoBehaviour
 
     [Header("Input Settings")]
     [SerializeField] private InputAction scrollAction;
-    private Dictionary<string, OnInteractionSelect> interactionOptionMap;
+    private Dictionary<string, BaseInteraction> interactionOptionMap;
 
     private void Awake()
     {
@@ -53,19 +51,20 @@ public class InteractionOptionManager : MonoBehaviour
 
         InteractionOptionText newSelectedOptionText = interactionParent.transform.GetChild(newSelectedIndex).GetComponent<InteractionOptionText>();
         newSelectedOptionText.SetAsSelected();
+
         currentlySelectedIndex = newSelectedIndex;
     }
 
-    public void AddNewInteractionOption(string optionDisplayText, OnInteractionSelect onInteractionSelect)
+    public void AddNewInteractionOption(string optionDisplayText, BaseInteraction interaction)
     {
         if (interactionOptionMap == null)
         {
-            interactionOptionMap = new Dictionary<string, OnInteractionSelect>();
+            interactionOptionMap = new Dictionary<string, BaseInteraction>();
         }
 
         if (!interactionOptionMap.ContainsKey(optionDisplayText))
         {
-            interactionOptionMap.Add(optionDisplayText, onInteractionSelect);
+            interactionOptionMap.Add(optionDisplayText, interaction);
 
             GameObject newInteractionGameObject = GameObject.Instantiate(interactionOptionPrefab, interactionParent.transform);
             InteractionOptionText textComponent = newInteractionGameObject.GetComponent<InteractionOptionText>();
@@ -73,25 +72,13 @@ public class InteractionOptionManager : MonoBehaviour
             if (textComponent != null)
             {
                 textComponent.UpdateDisplayText(optionDisplayText);
-                textComponent.onInteractSelect += ExecuteInteraction;
             }
         }
     }
 
-    public InteractionOptionText GetCurrentlySelectedInteractionOption()
+    public BaseInteraction GetCurrentlySelectedInteractionOption()
     {
-        return interactionParent.transform.GetChild(currentlySelectedIndex).GetComponent<InteractionOptionText>();
-    }
-
-    public void ExecuteInteraction(string interaction)
-    {
-        if (interactionOptionMap.ContainsKey(interaction))
-        {
-            OnInteractionSelect interactionAction = interactionOptionMap[interaction];
-            if (interactionAction != null)
-            {
-                interactionAction();
-            }
-        }
+        string key = interactionParent.transform.GetChild(currentlySelectedIndex).GetComponent<InteractionOptionText>().optionDisplayText.text;
+        return interactionOptionMap[key];
     }
 }

@@ -176,7 +176,7 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                     ""path"": ""<Keyboard>/s"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Keyboard_Mouse"",
                     ""action"": ""ScrollOptions"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
