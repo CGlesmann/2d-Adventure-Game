@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2244440990909757882}
   - component: {fileID: 8207502497009882511}
+  - component: {fileID: 244177216557387067}
   - component: {fileID: 2018110211573689247}
   - component: {fileID: 1921479619566538958}
   - component: {fileID: 5839625596234426505}
@@ -17,6 +18,7 @@ GameObject:
   - component: {fileID: 4761279404459855517}
   - component: {fileID: 469823044492928868}
   - component: {fileID: 5338890480582047882}
+  - component: {fileID: 5329900857894256760}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -78,8 +80,8 @@ SpriteRenderer:
   m_SortingLayerID: -597267155
   m_SortingLayer: 2
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
-  m_Color: {r: 0.028746877, g: 0.31411818, b: 0.3207547, a: 1}
+  m_Sprite: {fileID: 3102997193779496744, guid: 26b598443c21bb04dac50371994cbdf8, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -89,6 +91,25 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &244177216557387067
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5572722927832230082}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 983b9865c12a3434a9f1d6dec2b0d5ca, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!50 &2018110211573689247
 Rigidbody2D:
   serializedVersion: 4
@@ -127,7 +148,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
+    oldSize: {x: 0.875, y: 1.75}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -206,3 +227,15 @@ MonoBehaviour:
   interactionLayer:
     serializedVersion: 2
     m_Bits: 256
+--- !u!114 &5329900857894256760
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5572722927832230082}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b81d2c4cebabcb4fb24503c7f1e060d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
