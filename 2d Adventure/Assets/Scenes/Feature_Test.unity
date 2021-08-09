@@ -316,7 +316,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: b0cb5f058781be7488f858d6542c86af, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 6ca828189fada0946b46c1372d607b28, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -821,36 +821,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactionDisplayText: Talk
+  onInteractionEnd:
+    m_PersistentCalls:
+      m_Calls: []
+  dialogueTextManager: {fileID: 1153058068}
   conversation:
     conversationNodes:
     - nodeText: Hello Player
     - nodeText: This is a conversation
     - nodeText: Good Talk!
-  dialogueTextManager: {fileID: 1153058068}
-  progressAction:
-    m_Name: Progress
-    m_Type: 0
-    m_ExpectedControlType: 
-    m_Id: caeaf1c9-3bee-48a6-a7b5-3e9a9b210949
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings:
-    - m_Name: 
-      m_Id: ff425e0c-5f01-4228-b89f-ffbab27d06a9
-      m_Path: <Keyboard>/e
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Progress
-      m_Flags: 0
-    - m_Name: 
-      m_Id: 37efe4ed-fbe8-4e10-8f0d-29948712641f
-      m_Path: <Gamepad>/buttonSouth
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Progress
-      m_Flags: 0
 --- !u!114 &1131742389
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -903,6 +882,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactionDisplayText: Shop
+  onInteractionEnd:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1153058063
 GameObject:
   m_ObjectHideFlags: 0
@@ -922,7 +904,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1153058064
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1192,7 +1174,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1535126560
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1227,15 +1209,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.26415092, g: 0.26415092, b: 0.26415092, a: 1}
-  m_RaycastTarget: 1
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 7482667652216324306, guid: 57cc17ca86f4f284096a062170626945, type: 3}
-  m_Type: 0
+  m_Sprite: {fileID: 21300000, guid: 81a4c1fb411d44b4dae0d1bf5d8d2bf5, type: 3}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4

@@ -27,8 +27,15 @@ public class PlayerAnimatorController : MonoBehaviour
         inputManager.SubscribeToInputActionEvent("Walking", OnWalk);
     }
 
+    private void OnDestroy()
+    {
+        inputManager.UnsubscribeToInputActionEvent("Walking", OnWalk);
+    }
+
     public void OnWalk(InputAction.CallbackContext context)
     {
+        if (anim == null) { return; }
+
         Vector2 inputValue = context.ReadValue<Vector2>();
         anim.SetBool("Walking", inputValue != Vector2.zero);
 
