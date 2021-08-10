@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class DialogueInteraction : BaseInteraction
 {
@@ -12,8 +13,9 @@ public class DialogueInteraction : BaseInteraction
 
     private int currentNodeIndex;
 
-    public override void BeginInteraction()
+    public override void BeginInteraction(UnityAction endAction)
     {
+        base.BeginInteraction(endAction);
         currentNodeIndex = -1;
 
         dialogueTextManager.UpdateDialogueText(GetNextConversationNodeText());
@@ -22,12 +24,20 @@ public class DialogueInteraction : BaseInteraction
 
     public override void ProgressInteraction()
     {
+        if (!canProgressInteraction)
+            return;
+
         dialogueTextManager.UpdateDialogueText(GetNextConversationNodeText());
         return;
     }
 
+    public override void EndInteraction()
+    {
+        base.EndInteraction();
+        dialogueTextManager.DisableDiagloueUI();
+    }
+
     public override bool IsInteractionComplete() { return IsOnLastConversationNode(); }
-    public override void EndInteraction() { dialogueTextManager.DisableDiagloueUI(); }
 
     private bool IsOnLastConversationNode() { return (currentNodeIndex + 1 == conversation.conversationNodes.Count); }
     private string GetNextConversationNodeText() { return conversation.conversationNodes[++currentNodeIndex].nodeText; }

@@ -6,8 +6,8 @@ public class InteractionManager : MonoBehaviour
 {
     [Header("Object References")]
     public GameObject interactionOptionManagerObject;
+    [SerializeField] private Transform interactionComponentParent;
 
-    private Component[] interactions;
     private InteractionOptionManager interactionOptionManager;
 
     public void EnableInteractionSelectionPanel() { interactionOptionManagerObject.SetActive(true); }
@@ -16,10 +16,10 @@ public class InteractionManager : MonoBehaviour
     private void Awake()
     {
         interactionOptionManager = interactionOptionManagerObject.GetComponent<InteractionOptionManager>();
-        interactions = this.GetComponents(typeof(BaseInteraction));
 
-        foreach (BaseInteraction interaction in interactions)
+        for (int i = 0; i < interactionComponentParent.childCount; i++)
         {
+            BaseInteraction interaction = interactionComponentParent.GetChild(i).GetComponent<BaseInteraction>();
             interactionOptionManager.AddNewInteractionOption(interaction.interactionDisplayText, interaction);
         }
 

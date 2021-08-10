@@ -5,6 +5,8 @@ using UnityEngine.InputSystem;
 
 public class PlayerAnimatorController : MonoBehaviour
 {
+    private const string WALKING_ACTION_KEY = "Walking";
+
     private PlayerInputManager inputManager;
     private Animator anim;
 
@@ -24,13 +26,16 @@ public class PlayerAnimatorController : MonoBehaviour
             return;
         }
 
-        inputManager.SubscribeToInputActionEvent("Walking", OnWalk);
+        EnableWalkAnimationUpdate();
     }
 
-    private void OnDestroy()
-    {
-        inputManager.UnsubscribeToInputActionEvent("Walking", OnWalk);
-    }
+    private void OnDestroy() { DisableWalkAnimationUpdate(); }
+
+    public void EnableWalkAnimationUpdate() { inputManager.SubscribeToInputActionEvent(WALKING_ACTION_KEY, OnWalk); }
+
+    public void DisableWalkAnimationUpdate() { inputManager.UnsubscribeToInputActionEvent(WALKING_ACTION_KEY, OnWalk); }
+
+    public void SetCharacterToIdle() { anim.SetBool("Walking", false); }
 
     public void OnWalk(InputAction.CallbackContext context)
     {

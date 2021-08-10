@@ -18,7 +18,7 @@ public class PlayerInputManager : MonoBehaviour
     {
         playerInput = new PlayerInput();
 
-        foreach(InputActionMap actionMap in playerInput.asset.actionMaps)
+        foreach (InputActionMap actionMap in playerInput.asset.actionMaps)
         {
             actionMap.actionTriggered += OnInputPerformedEvent;
         }

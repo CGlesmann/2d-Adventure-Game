@@ -5,9 +5,12 @@ using UnityEngine.InputSystem;
 
 public class PlayerInteractionManager : MonoBehaviour
 {
+    private const string NPC_INTERACT_ACTION_KEY = "NPC_Interact";
+
     [Header("Interaction Settings")]
     [SerializeField] private LayerMask interactionLayer;
 
+    private PlayerAnimatorController animatorController;
     private PlayerInputManager inputManager;
     private PlayerMovement playerMovement;
     private InteractionManager interactionManager;
@@ -20,8 +23,7 @@ public class PlayerInteractionManager : MonoBehaviour
     {
         inputManager = GetComponent<PlayerInputManager>();
         playerMovement = GetComponent<PlayerMovement>();
-
-        inputManager.SubscribeToInputActionEvent("NPC_Interact", OnInteract);
+        animatorController = GetComponent<PlayerAnimatorController>();
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -36,6 +38,7 @@ public class PlayerInteractionManager : MonoBehaviour
             }
 
             this.interactionManager = interactionManager;
+            inputManager.SubscribeToInputActionEvent(NPC_INTERACT_ACTION_KEY, OnInteract);
         }
     }
 
@@ -46,21 +49,19 @@ public class PlayerInteractionManager : MonoBehaviour
             if (this.interactionManager != null && this.interactionManager == other.GetComponent<InteractionManager>())
             {
                 this.interactionManager = null;
+                inputManager.UnsubscribeToInputActionEvent(NPC_INTERACT_ACTION_KEY, OnInteract);
             }
         }
     }
 
     private void OnInteract(InputAction.CallbackContext context)
     {
-        if (context.ReadValue<float>() == 1)
+        if (context.ReadValue<float>() == 0)
         {
             // First NPC Interact
             if (!interactionInProgress && !interactionSelectionInProgress)
             {
-                playerMovement.DisableWalking();
-                interactionManager.EnableInteractionSelectionPanel();
-
-                interactionSelectionInProgress = true;
+                StartInteractionProcess();
                 return;
             }
 
@@ -68,7 +69,7 @@ public class PlayerInteractionManager : MonoBehaviour
             if (interactionSelectionInProgress)
             {
                 selectedInteraction = interactionManager.SelectCurrentlyHighlightedInteraction();
-                selectedInteraction.BeginInteraction();
+                selectedInteraction.BeginInteraction(EndInteractionProcess);
 
                 interactionSelectionInProgress = false;
                 interactionInProgress = true;
@@ -82,10 +83,6 @@ public class PlayerInteractionManager : MonoBehaviour
                 if (selectedInteraction.IsInteractionComplete())
                 {
                     selectedInteraction.EndInteraction();
-
-                    interactionInProgress = false;
-                    playerMovement.EnableWalking();
-
                     return;
                 }
 
@@ -93,5 +90,22 @@ public class PlayerInteractionManager : MonoBehaviour
                 return;
             }
         }
+    }
+
+    public void StartInteractionProcess()
+    {
+        animatorController.DisableWalkAnimationUpdate();
+        animatorController.SetCharacterToIdle();
+        playerMovement.DisableWalking();
+        interactionManager.EnableInteractionSelectionPanel();
+
+        interactionSelectionInProgress = true;
+    }
+
+    public void EndInteractionProcess()
+    {
+        interactionInProgress = false;
+        playerMovement.EnableWalking();
+        animatorController.EnableWalkAnimationUpdate();
     }
 }

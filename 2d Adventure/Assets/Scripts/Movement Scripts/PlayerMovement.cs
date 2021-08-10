@@ -34,6 +34,10 @@ public class PlayerMovement : MonoBehaviour
         currentInputMoveSpeed = context.ReadValue<Vector2>();
     }
 
-    public void EnableWalking() {inputManager.SubscribeToInputActionEvent("Walking", UpdateWalkSpeed);}
-    public void DisableWalking() {inputManager.UnsubscribeToInputActionEvent("Walking", UpdateWalkSpeed);}
+    public void EnableWalking() { inputManager.SubscribeToInputActionEvent("Walking", UpdateWalkSpeed); }
+    public void DisableWalking()
+    {
+        currentInputMoveSpeed = Vector2.zero;
+        inputManager.UnsubscribeToInputActionEvent("Walking", UpdateWalkSpeed);
+    }
 }
