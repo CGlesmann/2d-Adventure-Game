@@ -13,9 +13,9 @@ public class DialogueInteraction : BaseInteraction
 
     private int currentNodeIndex;
 
-    public override void BeginInteraction(UnityAction endAction)
+    public override void BeginInteraction(GameObject otherInteractor, UnityAction endAction)
     {
-        base.BeginInteraction(endAction);
+        base.BeginInteraction(otherInteractor, endAction);
         currentNodeIndex = -1;
 
         dialogueTextManager.UpdateDialogueText(GetNextConversationNodeText());
@@ -33,8 +33,8 @@ public class DialogueInteraction : BaseInteraction
 
     public override void EndInteraction()
     {
-        base.EndInteraction();
         dialogueTextManager.DisableDiagloueUI();
+        base.EndInteraction();
     }
 
     public override bool IsInteractionComplete() { return IsOnLastConversationNode(); }

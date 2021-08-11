@@ -10,11 +10,14 @@ public class BaseInteraction : MonoBehaviour
     public bool canProgressInteraction = true;
 
     [Header("Event Refrences")]
-    [SerializeField] private UnityEvent onInteractionEnd;
-    private List<UnityAction> temporaryActions;
+    [SerializeField] protected UnityEvent onInteractionEnd;
+    protected List<UnityAction> temporaryActions;
+    protected GameObject otherInteractor;
 
-    public virtual void BeginInteraction(UnityAction endAction)
+    public virtual void BeginInteraction(GameObject otherInteractor, UnityAction endAction)
     {
+        this.otherInteractor = otherInteractor;
+
         if (endAction != null)
         {
             if (onInteractionEnd == null) { onInteractionEnd = new UnityEvent(); }

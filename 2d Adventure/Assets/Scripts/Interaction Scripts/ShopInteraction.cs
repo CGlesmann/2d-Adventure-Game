@@ -8,9 +8,9 @@ public class ShopInteraction : BaseInteraction
     [Header("Shop Interface Reference")]
     [SerializeField] private GameObject shopCanvasObject;
 
-    public override void BeginInteraction(UnityAction endAction)
+    public override void BeginInteraction(GameObject otherInteractor, UnityAction endAction)
     {
-        base.BeginInteraction(endAction);
+        base.BeginInteraction(otherInteractor, endAction);
         shopCanvasObject.SetActive(true);
     }
 
@@ -18,7 +18,7 @@ public class ShopInteraction : BaseInteraction
 
     public override void EndInteraction()
     {
-        base.EndInteraction();
         shopCanvasObject.SetActive(false);
+        base.EndInteraction();
     }
 }

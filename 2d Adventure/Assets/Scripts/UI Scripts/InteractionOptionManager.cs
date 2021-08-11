@@ -24,6 +24,11 @@ public class InteractionOptionManager : MonoBehaviour
         scrollAction.Enable();
     }
 
+    private void OnDestroy()
+    {
+        scrollAction.performed -= ExecuteScrollAction;
+    }
+
     private void ExecuteScrollAction(InputAction.CallbackContext context)
     {
         float value = context.ReadValue<float>();

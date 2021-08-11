@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8359397350707703474}
   - component: {fileID: 8359397350707703472}
   - component: {fileID: 8359397350707703475}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -88,7 +88,7 @@ GameObject:
   - component: {fileID: 8359397351516528699}
   - component: {fileID: 8359397351516528698}
   - component: {fileID: 8359397351516528697}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: Interaction_Select_Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -241,7 +241,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8359397351574311373}
   - component: {fileID: 3346250520229434762}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: InteractionOptions
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -264,7 +264,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.012100011}
+  m_AnchoredPosition: {x: 0, y: -0.012100041}
   m_SizeDelta: {x: -0.22, y: -0.1151}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &3346250520229434762
@@ -288,6 +288,6 @@ MonoBehaviour:
   m_StartCorner: 0
   m_StartAxis: 0
   m_CellSize: {x: 0.87, y: 0.21}
-  m_Spacing: {x: 0, y: 0.025}
+  m_Spacing: {x: 0, y: 0.1}
   m_Constraint: 1
   m_ConstraintCount: 1

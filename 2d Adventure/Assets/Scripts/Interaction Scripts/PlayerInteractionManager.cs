@@ -49,45 +49,58 @@ public class PlayerInteractionManager : MonoBehaviour
             if (this.interactionManager != null && this.interactionManager == other.GetComponent<InteractionManager>())
             {
                 this.interactionManager = null;
-                inputManager.UnsubscribeToInputActionEvent(NPC_INTERACT_ACTION_KEY, OnInteract);
+                UnsubscribeInteractionAction();
             }
         }
     }
 
     private void OnInteract(InputAction.CallbackContext context)
     {
-        if (context.ReadValue<float>() == 0)
+        if (interactionManager != null)
         {
-            // First NPC Interact
-            if (!interactionInProgress && !interactionSelectionInProgress)
+            if (context.ReadValue<float>() == 0)
             {
-                StartInteractionProcess();
-                return;
-            }
-
-            // Select an Option
-            if (interactionSelectionInProgress)
-            {
-                selectedInteraction = interactionManager.SelectCurrentlyHighlightedInteraction();
-                selectedInteraction.BeginInteraction(EndInteractionProcess);
-
-                interactionSelectionInProgress = false;
-                interactionInProgress = true;
-
-                return;
-            }
-
-            // Progress Interaction
-            if (interactionInProgress)
-            {
-                if (selectedInteraction.IsInteractionComplete())
+                // First NPC Interact
+                if (!interactionInProgress && !interactionSelectionInProgress)
                 {
-                    selectedInteraction.EndInteraction();
+                    StartInteractionProcess();
+
+                    BaseInteraction interaction = interactionManager.InitiateInteractionSelection();
+                    if (interaction != null)
+                    {
+                        StartInteraction();
+
+                        selectedInteraction = interaction;
+                        selectedInteraction.BeginInteraction(gameObject, EndInteractionProcess);
+
+                        return;
+                    }
+
                     return;
                 }
 
-                selectedInteraction.ProgressInteraction();
-                return;
+                // Select an Option
+                if (interactionSelectionInProgress)
+                {
+                    selectedInteraction = interactionManager.SelectCurrentlyHighlightedInteraction();
+                    selectedInteraction.BeginInteraction(gameObject, EndInteractionProcess);
+
+                    StartInteraction();
+                    return;
+                }
+
+                // Progress Interaction
+                if (interactionInProgress)
+                {
+                    if (selectedInteraction.IsInteractionComplete())
+                    {
+                        selectedInteraction.EndInteraction();
+                        return;
+                    }
+
+                    selectedInteraction.ProgressInteraction();
+                    return;
+                }
             }
         }
     }
@@ -97,15 +110,23 @@ public class PlayerInteractionManager : MonoBehaviour
         animatorController.DisableWalkAnimationUpdate();
         animatorController.SetCharacterToIdle();
         playerMovement.DisableWalking();
-        interactionManager.EnableInteractionSelectionPanel();
 
         interactionSelectionInProgress = true;
     }
 
+    public void StartInteraction()
+    {
+        interactionSelectionInProgress = false;
+        interactionInProgress = true;
+    }
+
     public void EndInteractionProcess()
     {
-        interactionInProgress = false;
         playerMovement.EnableWalking();
         animatorController.EnableWalkAnimationUpdate();
+
+        interactionInProgress = false;
     }
+
+    public void UnsubscribeInteractionAction() { inputManager.UnsubscribeToInputActionEvent(NPC_INTERACT_ACTION_KEY, OnInteract); }
 }

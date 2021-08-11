@@ -14,7 +14,7 @@ public class PlayerInputManager : MonoBehaviour
     public void EnableInput() { playerInput.Enable(); }
     public void DisbleInput() { playerInput.Disable(); }
 
-    private void Awake()
+    private void OnEnable()
     {
         playerInput = new PlayerInput();
 
