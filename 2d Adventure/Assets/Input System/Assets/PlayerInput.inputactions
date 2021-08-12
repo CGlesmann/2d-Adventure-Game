@@ -126,10 +126,34 @@
             "id": "342b9810-e425-4e84-8488-499b02fc57a3",
             "actions": [
                 {
-                    "name": "ScrollOptions",
+                    "name": "UIScroll",
                     "type": "Value",
                     "id": "9bb928b1-d94f-489d-b666-5e462f75324a",
                     "expectedControlType": "",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "UICancel",
+                    "type": "PassThrough",
+                    "id": "66b4b84d-a2c8-4bb5-894f-dcbe73b31717",
+                    "expectedControlType": "Analog",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "UIMenuActiveToggle",
+                    "type": "PassThrough",
+                    "id": "250b6c90-e83b-4091-befd-ceb13d7d8832",
+                    "expectedControlType": "Analog",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "UIMenuNavigate",
+                    "type": "PassThrough",
+                    "id": "79af15b8-af2a-457b-81d9-b126a9078688",
+                    "expectedControlType": "Analog",
                     "processors": "",
                     "interactions": ""
                 }
@@ -142,7 +166,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
-                    "action": "ScrollOptions",
+                    "action": "UIScroll",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -153,7 +177,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "ScrollOptions",
+                    "action": "UIScroll",
                     "isComposite": true,
                     "isPartOfComposite": false
                 },
@@ -164,7 +188,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard_Mouse",
-                    "action": "ScrollOptions",
+                    "action": "UIScroll",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -175,7 +199,117 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard_Mouse",
-                    "action": "ScrollOptions",
+                    "action": "UIScroll",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "8b08f45a-7bee-413a-b702-f0cfd0d05c17",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard_Mouse",
+                    "action": "UICancel",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7f4c7e3b-3268-4873-baed-49b641b39d0b",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "UICancel",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ca9081c6-25d8-47f7-8b8f-7c8112dd3189",
+                    "path": "<Keyboard>/tab",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard_Mouse",
+                    "action": "UIMenuActiveToggle",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "48a53b56-69cd-4455-bcc1-7517b4a31b6d",
+                    "path": "<Gamepad>/start",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "UIMenuActiveToggle",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "Gamepad_Bumpers",
+                    "id": "69e4be64-2dcc-4109-be17-4ee98b60ed83",
+                    "path": "1DAxis",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "UIMenuNavigate",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "negative",
+                    "id": "4bb894ee-0e13-4502-91ed-19449a5482fc",
+                    "path": "<Gamepad>/leftShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "UIMenuNavigate",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "positive",
+                    "id": "beaf040e-19cb-4fe3-b1b9-2cbf47c881b6",
+                    "path": "<Gamepad>/rightShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "UIMenuNavigate",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "Keyboard_ZX",
+                    "id": "75089199-927d-4ccc-810a-8f11adc1b38e",
+                    "path": "1DAxis",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "UIMenuNavigate",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "negative",
+                    "id": "23d2e675-ee65-403b-8964-89f76966ff15",
+                    "path": "<Keyboard>/z",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard_Mouse",
+                    "action": "UIMenuNavigate",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "positive",
+                    "id": "00619e04-0ff1-456a-a574-68b996b337f8",
+                    "path": "<Keyboard>/x",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard_Mouse",
+                    "action": "UIMenuNavigate",
                     "isComposite": false,
                     "isPartOfComposite": true
                 }

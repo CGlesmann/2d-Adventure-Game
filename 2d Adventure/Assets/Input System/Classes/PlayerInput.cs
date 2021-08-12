@@ -139,10 +139,34 @@ public class @PlayerInput : IInputActionCollection, IDisposable
             ""id"": ""342b9810-e425-4e84-8488-499b02fc57a3"",
             ""actions"": [
                 {
-                    ""name"": ""ScrollOptions"",
+                    ""name"": ""UIScroll"",
                     ""type"": ""Value"",
                     ""id"": ""9bb928b1-d94f-489d-b666-5e462f75324a"",
                     ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""UICancel"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""66b4b84d-a2c8-4bb5-894f-dcbe73b31717"",
+                    ""expectedControlType"": ""Analog"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""UIMenuActiveToggle"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""250b6c90-e83b-4091-befd-ceb13d7d8832"",
+                    ""expectedControlType"": ""Analog"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""UIMenuNavigate"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""79af15b8-af2a-457b-81d9-b126a9078688"",
+                    ""expectedControlType"": ""Analog"",
                     ""processors"": """",
                     ""interactions"": """"
                 }
@@ -155,7 +179,7 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
-                    ""action"": ""ScrollOptions"",
+                    ""action"": ""UIScroll"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -166,7 +190,7 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""ScrollOptions"",
+                    ""action"": ""UIScroll"",
                     ""isComposite"": true,
                     ""isPartOfComposite"": false
                 },
@@ -177,7 +201,7 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard_Mouse"",
-                    ""action"": ""ScrollOptions"",
+                    ""action"": ""UIScroll"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -188,7 +212,117 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard_Mouse"",
-                    ""action"": ""ScrollOptions"",
+                    ""action"": ""UIScroll"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8b08f45a-7bee-413a-b702-f0cfd0d05c17"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard_Mouse"",
+                    ""action"": ""UICancel"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7f4c7e3b-3268-4873-baed-49b641b39d0b"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""UICancel"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ca9081c6-25d8-47f7-8b8f-7c8112dd3189"",
+                    ""path"": ""<Keyboard>/tab"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard_Mouse"",
+                    ""action"": ""UIMenuActiveToggle"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""48a53b56-69cd-4455-bcc1-7517b4a31b6d"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""UIMenuActiveToggle"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""Gamepad_Bumpers"",
+                    ""id"": ""69e4be64-2dcc-4109-be17-4ee98b60ed83"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""UIMenuNavigate"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""4bb894ee-0e13-4502-91ed-19449a5482fc"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""UIMenuNavigate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""beaf040e-19cb-4fe3-b1b9-2cbf47c881b6"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""UIMenuNavigate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""Keyboard_ZX"",
+                    ""id"": ""75089199-927d-4ccc-810a-8f11adc1b38e"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""UIMenuNavigate"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""23d2e675-ee65-403b-8964-89f76966ff15"",
+                    ""path"": ""<Keyboard>/z"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard_Mouse"",
+                    ""action"": ""UIMenuNavigate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""00619e04-0ff1-456a-a574-68b996b337f8"",
+                    ""path"": ""<Keyboard>/x"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard_Mouse"",
+                    ""action"": ""UIMenuNavigate"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 }
@@ -233,7 +367,10 @@ public class @PlayerInput : IInputActionCollection, IDisposable
         m_Interaction_NPC_Interact = m_Interaction.FindAction("NPC_Interact", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
-        m_UI_ScrollOptions = m_UI.FindAction("ScrollOptions", throwIfNotFound: true);
+        m_UI_UIScroll = m_UI.FindAction("UIScroll", throwIfNotFound: true);
+        m_UI_UICancel = m_UI.FindAction("UICancel", throwIfNotFound: true);
+        m_UI_UIMenuActiveToggle = m_UI.FindAction("UIMenuActiveToggle", throwIfNotFound: true);
+        m_UI_UIMenuNavigate = m_UI.FindAction("UIMenuNavigate", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -349,12 +486,18 @@ public class @PlayerInput : IInputActionCollection, IDisposable
     // UI
     private readonly InputActionMap m_UI;
     private IUIActions m_UIActionsCallbackInterface;
-    private readonly InputAction m_UI_ScrollOptions;
+    private readonly InputAction m_UI_UIScroll;
+    private readonly InputAction m_UI_UICancel;
+    private readonly InputAction m_UI_UIMenuActiveToggle;
+    private readonly InputAction m_UI_UIMenuNavigate;
     public struct UIActions
     {
         private @PlayerInput m_Wrapper;
         public UIActions(@PlayerInput wrapper) { m_Wrapper = wrapper; }
-        public InputAction @ScrollOptions => m_Wrapper.m_UI_ScrollOptions;
+        public InputAction @UIScroll => m_Wrapper.m_UI_UIScroll;
+        public InputAction @UICancel => m_Wrapper.m_UI_UICancel;
+        public InputAction @UIMenuActiveToggle => m_Wrapper.m_UI_UIMenuActiveToggle;
+        public InputAction @UIMenuNavigate => m_Wrapper.m_UI_UIMenuNavigate;
         public InputActionMap Get() { return m_Wrapper.m_UI; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -364,16 +507,34 @@ public class @PlayerInput : IInputActionCollection, IDisposable
         {
             if (m_Wrapper.m_UIActionsCallbackInterface != null)
             {
-                @ScrollOptions.started -= m_Wrapper.m_UIActionsCallbackInterface.OnScrollOptions;
-                @ScrollOptions.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnScrollOptions;
-                @ScrollOptions.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnScrollOptions;
+                @UIScroll.started -= m_Wrapper.m_UIActionsCallbackInterface.OnUIScroll;
+                @UIScroll.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnUIScroll;
+                @UIScroll.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnUIScroll;
+                @UICancel.started -= m_Wrapper.m_UIActionsCallbackInterface.OnUICancel;
+                @UICancel.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnUICancel;
+                @UICancel.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnUICancel;
+                @UIMenuActiveToggle.started -= m_Wrapper.m_UIActionsCallbackInterface.OnUIMenuActiveToggle;
+                @UIMenuActiveToggle.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnUIMenuActiveToggle;
+                @UIMenuActiveToggle.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnUIMenuActiveToggle;
+                @UIMenuNavigate.started -= m_Wrapper.m_UIActionsCallbackInterface.OnUIMenuNavigate;
+                @UIMenuNavigate.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnUIMenuNavigate;
+                @UIMenuNavigate.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnUIMenuNavigate;
             }
             m_Wrapper.m_UIActionsCallbackInterface = instance;
             if (instance != null)
             {
-                @ScrollOptions.started += instance.OnScrollOptions;
-                @ScrollOptions.performed += instance.OnScrollOptions;
-                @ScrollOptions.canceled += instance.OnScrollOptions;
+                @UIScroll.started += instance.OnUIScroll;
+                @UIScroll.performed += instance.OnUIScroll;
+                @UIScroll.canceled += instance.OnUIScroll;
+                @UICancel.started += instance.OnUICancel;
+                @UICancel.performed += instance.OnUICancel;
+                @UICancel.canceled += instance.OnUICancel;
+                @UIMenuActiveToggle.started += instance.OnUIMenuActiveToggle;
+                @UIMenuActiveToggle.performed += instance.OnUIMenuActiveToggle;
+                @UIMenuActiveToggle.canceled += instance.OnUIMenuActiveToggle;
+                @UIMenuNavigate.started += instance.OnUIMenuNavigate;
+                @UIMenuNavigate.performed += instance.OnUIMenuNavigate;
+                @UIMenuNavigate.canceled += instance.OnUIMenuNavigate;
             }
         }
     }
@@ -406,6 +567,9 @@ public class @PlayerInput : IInputActionCollection, IDisposable
     }
     public interface IUIActions
     {
-        void OnScrollOptions(InputAction.CallbackContext context);
+        void OnUIScroll(InputAction.CallbackContext context);
+        void OnUICancel(InputAction.CallbackContext context);
+        void OnUIMenuActiveToggle(InputAction.CallbackContext context);
+        void OnUIMenuNavigate(InputAction.CallbackContext context);
     }
 }

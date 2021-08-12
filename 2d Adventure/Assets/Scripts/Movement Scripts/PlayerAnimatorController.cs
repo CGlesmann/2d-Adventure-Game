@@ -25,31 +25,39 @@ public class PlayerAnimatorController : MonoBehaviour
             Debug.LogError($"No Player Input Animator was found for {gameObject.name}");
             return;
         }
-
-        EnableWalkAnimationUpdate();
     }
 
     private void OnDestroy() { DisableWalkAnimationUpdate(); }
 
     public void EnableWalkAnimationUpdate() { inputManager.SubscribeToInputActionEvent(WALKING_ACTION_KEY, OnWalk); }
 
-    public void DisableWalkAnimationUpdate() { inputManager.UnsubscribeToInputActionEvent(WALKING_ACTION_KEY, OnWalk); }
+    public void DisableWalkAnimationUpdate()
+    {
+        inputManager.UnsubscribeToInputActionEvent(WALKING_ACTION_KEY, OnWalk);
+        SetCharacterToIdle();
+    }
 
-    public void SetCharacterToIdle() { anim.SetBool("Walking", false); }
+    public void SetCharacterToIdle() { UpdateAnimatorParameters(Vector2.zero); }
 
     public void OnWalk(InputAction.CallbackContext context)
     {
         if (anim == null) { return; }
 
         Vector2 inputValue = context.ReadValue<Vector2>();
-        anim.SetBool("Walking", inputValue != Vector2.zero);
+        UpdateAnimatorParameters(inputValue);
+    }
 
-        if (inputValue == Vector2.zero)
+    public void UpdateAnimatorParameters(Vector2 newMoveSpeed)
+    {
+        anim.SetBool("Walking", newMoveSpeed != Vector2.zero);
+
+        if (newMoveSpeed == Vector2.zero)
         {
             return;
         }
 
-        anim.SetFloat("Horizontal", inputValue.x);
-        anim.SetFloat("Vertical", inputValue.y);
+        anim.SetFloat("Horizontal", newMoveSpeed.x);
+        anim.SetFloat("Vertical", newMoveSpeed.y);
+        return;
     }
 }

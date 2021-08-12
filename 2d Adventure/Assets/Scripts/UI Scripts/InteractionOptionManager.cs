@@ -11,7 +11,6 @@ public class InteractionOptionManager : MonoBehaviour
     private int currentlySelectedIndex = 0;
 
     [Header("Input Settings")]
-    [SerializeField] private InputAction scrollAction;
     private Dictionary<string, BaseInteraction> interactionOptionMap;
 
     private void Awake()
@@ -20,13 +19,12 @@ public class InteractionOptionManager : MonoBehaviour
         newSelectedOptionText.SetAsSelected();
         currentlySelectedIndex = 0;
 
-        scrollAction.performed += ExecuteScrollAction;
-        scrollAction.Enable();
+        PlayerInputManager.playerInputManager.SubscribeToInputActionEvent("UIScroll", ExecuteScrollAction);
     }
 
     private void OnDestroy()
     {
-        scrollAction.performed -= ExecuteScrollAction;
+        PlayerInputManager.playerInputManager.UnsubscribeToInputActionEvent("UIScroll", ExecuteScrollAction);
     }
 
     private void ExecuteScrollAction(InputAction.CallbackContext context)

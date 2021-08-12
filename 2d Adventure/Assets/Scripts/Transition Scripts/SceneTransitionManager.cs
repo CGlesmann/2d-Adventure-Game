@@ -36,8 +36,6 @@ public class SceneTransitionManager : MonoBehaviour
 
     private TransitionInfo[] QueryForCurrentSceneTransitions()
     {
-        Debug.Log("QueryForCurrentSceneTransitions");
-
         TransitionInteraction[] transitions = GameObject.FindObjectsOfType<TransitionInteraction>();
         TransitionInfo[] transitionInfoObjects = new TransitionInfo[transitions.Length];
 
@@ -51,8 +49,6 @@ public class SceneTransitionManager : MonoBehaviour
 
     private TransitionInfo[] GetCachedTransitionsForCurrentScene()
     {
-        Debug.Log("GetCachedTransitionsForCurrentScene");
-
         if (transitionObjectsByScene == null) { return null; }
 
         if (transitionObjectsByScene.TryGetValue(SceneManager.GetActiveScene().name, out TransitionInfo[] transitions))

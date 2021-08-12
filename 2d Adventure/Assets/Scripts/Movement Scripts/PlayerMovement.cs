@@ -10,14 +10,15 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float moveSpeed;
 
     private PlayerInputManager inputManager;
+    private PlayerAnimatorController animationController;
     private MovementController movementController;
     private Vector2 currentInputMoveSpeed = Vector3.zero;
 
     public void Awake()
     {
         movementController = GetComponent<MovementController>();
+        animationController = GetComponent<PlayerAnimatorController>();
 
-        inputManager = GetComponent<PlayerInputManager>();
         EnableWalking();
     }
 
@@ -34,10 +35,23 @@ public class PlayerMovement : MonoBehaviour
         currentInputMoveSpeed = context.ReadValue<Vector2>();
     }
 
-    public void EnableWalking() { inputManager.SubscribeToInputActionEvent("Walking", UpdateWalkSpeed); }
+    public void EnableWalking()
+    {
+        if (inputManager == null) { inputManager = GetComponent<PlayerInputManager>(); }
+        inputManager.SubscribeToInputActionEvent("Walking", UpdateWalkSpeed);
+
+        if (animationController == null) { animationController = GetComponent<PlayerAnimatorController>(); }
+        animationController.EnableWalkAnimationUpdate();
+    }
+
     public void DisableWalking()
     {
         currentInputMoveSpeed = Vector2.zero;
+
+        if (inputManager == null) { inputManager = GetComponent<PlayerInputManager>(); }
         inputManager.UnsubscribeToInputActionEvent("Walking", UpdateWalkSpeed);
+
+        if (animationController == null) { animationController = GetComponent<PlayerAnimatorController>(); }
+        animationController.DisableWalkAnimationUpdate();
     }
 }

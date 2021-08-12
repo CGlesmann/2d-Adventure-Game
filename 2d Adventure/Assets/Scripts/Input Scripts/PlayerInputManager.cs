@@ -6,6 +6,8 @@ using UnityEngine.InputSystem;
 
 public class PlayerInputManager : MonoBehaviour
 {
+    public static PlayerInputManager playerInputManager;
+
     public delegate void OnInputActionPerformed(InputAction.CallbackContext ctx);
     public Dictionary<string, OnInputActionPerformed> inputActionMap;
 
@@ -16,6 +18,13 @@ public class PlayerInputManager : MonoBehaviour
 
     private void OnEnable()
     {
+        if (playerInputManager != null)
+        {
+            GameObject.Destroy(gameObject);
+            return;
+        }
+
+        playerInputManager = this;
         playerInput = new PlayerInput();
 
         foreach (InputActionMap actionMap in playerInput.asset.actionMaps)
