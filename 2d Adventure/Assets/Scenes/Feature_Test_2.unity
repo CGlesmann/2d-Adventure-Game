@@ -638,7 +638,8 @@ MonoBehaviour:
       m_Calls: []
   playerSpawnPoint: {fileID: 25394679}
   targetSceneName: Feature_Test
-  doorKey: Feature_Test_South_To_Test_2_North
+  doorKey: Feature_Test_2_North
+  targetDoorKey: Feature_Test_South
 --- !u!1 &373762766
 GameObject:
   m_ObjectHideFlags: 0

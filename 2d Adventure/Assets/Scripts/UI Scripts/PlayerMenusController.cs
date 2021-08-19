@@ -14,7 +14,7 @@ public class PlayerMenusController : MonoBehaviour
     [SerializeField] private Transform playerMenuIconsParent;
 
     private PlayerMovement playerMovement;
-    private Selectable[] playerMenuIcons;
+    private MenuIcon[] playerMenuIcons;
     private int currentActiveMenuIndex = 0;
 
     private void OnEnable()
@@ -23,10 +23,10 @@ public class PlayerMenusController : MonoBehaviour
 
         if (playerMenuIconsParent != null && playerMenuIconsParent.childCount > 0)
         {
-            playerMenuIcons = new Selectable[playerMenuIconsParent.childCount];
+            playerMenuIcons = new MenuIcon[playerMenuIconsParent.childCount];
             for (int i = 0; i < playerMenuIconsParent.childCount; i++)
             {
-                playerMenuIcons[i] = playerMenuIconsParent.GetChild(i).GetComponent<Selectable>();
+                playerMenuIcons[i] = playerMenuIconsParent.GetChild(i).GetComponent<MenuIcon>();
             }
         }
     }
@@ -86,12 +86,12 @@ public class PlayerMenusController : MonoBehaviour
     public void SetTargetMenuToActive(int targetMenuIndex)
     {
         playerMenusParent.GetChild(targetMenuIndex).gameObject.SetActive(true);
-        playerMenuIcons[targetMenuIndex].Select();
+        playerMenuIcons[targetMenuIndex].SetMenuIconAsActive();
     }
 
     public void SetTargetMenuToInactive(int targetMenuIndex)
     {
         playerMenusParent.GetChild(targetMenuIndex).gameObject.SetActive(false);
-        playerMenuIcons[targetMenuIndex].GetComponent<Image>().color = playerMenuIcons[targetMenuIndex].colors.normalColor;
+        playerMenuIcons[targetMenuIndex].SetMenuIconAsInactive();
     }
 }

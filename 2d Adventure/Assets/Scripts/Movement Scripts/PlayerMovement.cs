@@ -7,12 +7,13 @@ using UnityEngine.InputSystem;
 public class PlayerMovement : MonoBehaviour
 {
     [Header("Movement Settings")]
-    [SerializeField] private float moveSpeed;
+    public float moveSpeed;
 
     private PlayerInputManager inputManager;
     private PlayerAnimatorController animationController;
     private MovementController movementController;
-    private Vector2 currentInputMoveSpeed = Vector3.zero;
+    public Vector2 currentInputMoveSpeed { get; private set; }
+    private bool canMove = true;
 
     public void Awake()
     {
@@ -24,26 +25,21 @@ public class PlayerMovement : MonoBehaviour
 
     public void Update()
     {
-        if (currentInputMoveSpeed != Vector2.zero)
+        if (canMove && currentInputMoveSpeed != Vector2.zero)
         {
             movementController.Move(transform, currentInputMoveSpeed * moveSpeed * Time.deltaTime);
         }
     }
 
-    private void UpdateWalkSpeed(InputAction.CallbackContext context)
-    {
-        currentInputMoveSpeed = context.ReadValue<Vector2>();
-    }
+    private void UpdateWalkSpeed(InputAction.CallbackContext context) { currentInputMoveSpeed = context.ReadValue<Vector2>(); }
 
-    public void EnableWalking()
-    {
-        if (inputManager == null) { inputManager = GetComponent<PlayerInputManager>(); }
-        inputManager.SubscribeToInputActionEvent("Walking", UpdateWalkSpeed);
+    // Pausing Movement allows for Input to continue to be collected without moving the player
+    // Example of Use: Player should begin walking immediately after attack completes, use this
+    public void PauseMovement() { canMove = false; }
+    public void UnpauseMovement() { canMove = true; }
 
-        if (animationController == null) { animationController = GetComponent<PlayerAnimatorController>(); }
-        animationController.EnableWalkAnimationUpdate();
-    }
-
+    // Diabling Movement, stops the player movement and input completely
+    // Example of Use: NPC Interaction begins, no need for input to be collected in background.
     public void DisableWalking()
     {
         currentInputMoveSpeed = Vector2.zero;
@@ -53,5 +49,15 @@ public class PlayerMovement : MonoBehaviour
 
         if (animationController == null) { animationController = GetComponent<PlayerAnimatorController>(); }
         animationController.DisableWalkAnimationUpdate();
+    }
+
+    public void EnableWalking()
+    {
+        if (inputManager == null) { inputManager = GetComponent<PlayerInputManager>(); }
+        inputManager.SubscribeToInputActionEvent("Walking", UpdateWalkSpeed);
+
+        if (animationController == null) { animationController = GetComponent<PlayerAnimatorController>(); }
+        animationController.EnableWalkAnimationUpdate();
+        // animationController.EnableDashAnimationUpdate();
     }
 }

@@ -12,5 +12,11 @@ public class MenuScreen : MonoBehaviour
     private void OnEnable()
     {
         EventSystem.current.SetSelectedGameObject(defaultObjectToSelect.gameObject);
+        defaultObjectToSelect.Select();
+    }
+
+    public void TestLog()
+    {
+        Debug.Log("I am a button that's been pressed");
     }
 }

@@ -13,7 +13,8 @@ public class InteractionOptionManager : MonoBehaviour
     [Header("Input Settings")]
     private Dictionary<string, BaseInteraction> interactionOptionMap;
 
-    private void Awake()
+    private void OnDisable() { PlayerInputManager.playerInputManager.UnsubscribeToInputActionEvent("UIScroll", ExecuteScrollAction); }
+    private void OnEnable()
     {
         InteractionOptionText newSelectedOptionText = interactionParent.transform.GetChild(0).GetComponent<InteractionOptionText>();
         newSelectedOptionText.SetAsSelected();
@@ -22,28 +23,13 @@ public class InteractionOptionManager : MonoBehaviour
         PlayerInputManager.playerInputManager.SubscribeToInputActionEvent("UIScroll", ExecuteScrollAction);
     }
 
-    private void OnDestroy()
-    {
-        PlayerInputManager.playerInputManager.UnsubscribeToInputActionEvent("UIScroll", ExecuteScrollAction);
-    }
-
     private void ExecuteScrollAction(InputAction.CallbackContext context)
     {
-        float value = context.ReadValue<float>();
-
-        if (value == -1)
+        int targetIndex = Mathf.Clamp(currentlySelectedIndex + (int)(context.ReadValue<float>() * -1), 0, interactionParent.transform.childCount - 1);
+        if (targetIndex != currentlySelectedIndex)
         {
-            if (currentlySelectedIndex < interactionParent.transform.childCount - 1)
-            {
-                UpdateCurrentSelectedOption(currentlySelectedIndex, ++currentlySelectedIndex);
-            }
-        }
-        else if (value == 1)
-        {
-            if (currentlySelectedIndex > 0)
-            {
-                UpdateCurrentSelectedOption(currentlySelectedIndex, --currentlySelectedIndex);
-            }
+            UpdateCurrentSelectedOption(currentlySelectedIndex, targetIndex);
+            currentlySelectedIndex = targetIndex;
         }
     }
 

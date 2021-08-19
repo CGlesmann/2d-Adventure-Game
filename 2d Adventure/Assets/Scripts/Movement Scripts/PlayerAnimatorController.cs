@@ -7,11 +7,13 @@ public class PlayerAnimatorController : MonoBehaviour
 {
     private const string WALKING_ACTION_KEY = "Walking";
 
+    private PlayerMovement playerMovement;
     private PlayerInputManager inputManager;
     private Animator anim;
 
     private void Awake()
     {
+        playerMovement = GetComponent<PlayerMovement>();
         anim = GetComponent<Animator>();
         if (anim == null)
         {
@@ -37,17 +39,20 @@ public class PlayerAnimatorController : MonoBehaviour
         SetCharacterToIdle();
     }
 
-    public void SetCharacterToIdle() { UpdateAnimatorParameters(Vector2.zero); }
+    public void SetCharacterToIdle()
+    {
+        UpdateAnimatorWalkingParameters(Vector2.zero);
+    }
 
     public void OnWalk(InputAction.CallbackContext context)
     {
         if (anim == null) { return; }
 
         Vector2 inputValue = context.ReadValue<Vector2>();
-        UpdateAnimatorParameters(inputValue);
+        UpdateAnimatorWalkingParameters(inputValue);
     }
 
-    public void UpdateAnimatorParameters(Vector2 newMoveSpeed)
+    public void UpdateAnimatorWalkingParameters(Vector2 newMoveSpeed)
     {
         anim.SetBool("Walking", newMoveSpeed != Vector2.zero);
 

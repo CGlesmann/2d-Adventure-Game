@@ -25,6 +25,14 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Dash"",
+                    ""type"": ""Button"",
+                    ""id"": ""2888a5c3-902c-437a-a921-104e1b6bc3b5"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press""
                 }
             ],
             ""bindings"": [
@@ -93,6 +101,66 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                     ""action"": ""Walking"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""693f337e-1cf7-4cad-bf17-89c3918c91e7"",
+                    ""path"": ""<Keyboard>/leftShift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard_Mouse"",
+                    ""action"": ""Dash"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ebed2166-ce43-42b2-a080-f9534c4226b7"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Dash"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""Combat"",
+            ""id"": ""0e734c13-e75a-4546-9851-401ff5c1fefd"",
+            ""actions"": [
+                {
+                    ""name"": ""Sword_Attack"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""b3465700-9bbf-4f6f-9967-df76ace710cb"",
+                    ""expectedControlType"": ""Analog"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""f1520dd0-bfc4-483f-a077-37601e38241a"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard_Mouse"",
+                    ""action"": ""Sword_Attack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b895adb8-873c-441d-97cc-8b2d0d5572b0"",
+                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Sword_Attack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -140,7 +208,7 @@ public class @PlayerInput : IInputActionCollection, IDisposable
             ""actions"": [
                 {
                     ""name"": ""UIScroll"",
-                    ""type"": ""Value"",
+                    ""type"": ""PassThrough"",
                     ""id"": ""9bb928b1-d94f-489d-b666-5e462f75324a"",
                     ""expectedControlType"": """",
                     ""processors"": """",
@@ -362,6 +430,10 @@ public class @PlayerInput : IInputActionCollection, IDisposable
         // Movement
         m_Movement = asset.FindActionMap("Movement", throwIfNotFound: true);
         m_Movement_Walking = m_Movement.FindAction("Walking", throwIfNotFound: true);
+        m_Movement_Dash = m_Movement.FindAction("Dash", throwIfNotFound: true);
+        // Combat
+        m_Combat = asset.FindActionMap("Combat", throwIfNotFound: true);
+        m_Combat_Sword_Attack = m_Combat.FindAction("Sword_Attack", throwIfNotFound: true);
         // Interaction
         m_Interaction = asset.FindActionMap("Interaction", throwIfNotFound: true);
         m_Interaction_NPC_Interact = m_Interaction.FindAction("NPC_Interact", throwIfNotFound: true);
@@ -421,11 +493,13 @@ public class @PlayerInput : IInputActionCollection, IDisposable
     private readonly InputActionMap m_Movement;
     private IMovementActions m_MovementActionsCallbackInterface;
     private readonly InputAction m_Movement_Walking;
+    private readonly InputAction m_Movement_Dash;
     public struct MovementActions
     {
         private @PlayerInput m_Wrapper;
         public MovementActions(@PlayerInput wrapper) { m_Wrapper = wrapper; }
         public InputAction @Walking => m_Wrapper.m_Movement_Walking;
+        public InputAction @Dash => m_Wrapper.m_Movement_Dash;
         public InputActionMap Get() { return m_Wrapper.m_Movement; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -438,6 +512,9 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                 @Walking.started -= m_Wrapper.m_MovementActionsCallbackInterface.OnWalking;
                 @Walking.performed -= m_Wrapper.m_MovementActionsCallbackInterface.OnWalking;
                 @Walking.canceled -= m_Wrapper.m_MovementActionsCallbackInterface.OnWalking;
+                @Dash.started -= m_Wrapper.m_MovementActionsCallbackInterface.OnDash;
+                @Dash.performed -= m_Wrapper.m_MovementActionsCallbackInterface.OnDash;
+                @Dash.canceled -= m_Wrapper.m_MovementActionsCallbackInterface.OnDash;
             }
             m_Wrapper.m_MovementActionsCallbackInterface = instance;
             if (instance != null)
@@ -445,10 +522,46 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                 @Walking.started += instance.OnWalking;
                 @Walking.performed += instance.OnWalking;
                 @Walking.canceled += instance.OnWalking;
+                @Dash.started += instance.OnDash;
+                @Dash.performed += instance.OnDash;
+                @Dash.canceled += instance.OnDash;
             }
         }
     }
     public MovementActions @Movement => new MovementActions(this);
+
+    // Combat
+    private readonly InputActionMap m_Combat;
+    private ICombatActions m_CombatActionsCallbackInterface;
+    private readonly InputAction m_Combat_Sword_Attack;
+    public struct CombatActions
+    {
+        private @PlayerInput m_Wrapper;
+        public CombatActions(@PlayerInput wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Sword_Attack => m_Wrapper.m_Combat_Sword_Attack;
+        public InputActionMap Get() { return m_Wrapper.m_Combat; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(CombatActions set) { return set.Get(); }
+        public void SetCallbacks(ICombatActions instance)
+        {
+            if (m_Wrapper.m_CombatActionsCallbackInterface != null)
+            {
+                @Sword_Attack.started -= m_Wrapper.m_CombatActionsCallbackInterface.OnSword_Attack;
+                @Sword_Attack.performed -= m_Wrapper.m_CombatActionsCallbackInterface.OnSword_Attack;
+                @Sword_Attack.canceled -= m_Wrapper.m_CombatActionsCallbackInterface.OnSword_Attack;
+            }
+            m_Wrapper.m_CombatActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @Sword_Attack.started += instance.OnSword_Attack;
+                @Sword_Attack.performed += instance.OnSword_Attack;
+                @Sword_Attack.canceled += instance.OnSword_Attack;
+            }
+        }
+    }
+    public CombatActions @Combat => new CombatActions(this);
 
     // Interaction
     private readonly InputActionMap m_Interaction;
@@ -560,6 +673,11 @@ public class @PlayerInput : IInputActionCollection, IDisposable
     public interface IMovementActions
     {
         void OnWalking(InputAction.CallbackContext context);
+        void OnDash(InputAction.CallbackContext context);
+    }
+    public interface ICombatActions
+    {
+        void OnSword_Attack(InputAction.CallbackContext context);
     }
     public interface IInteractionActions
     {

@@ -29,7 +29,7 @@ public class GameCameraController : MonoBehaviour
         {
             if (playerTransform == null) { return; }
 
-            transform.position = Vector3.MoveTowards(transform.position, playerTransform.position + offset, cameraFollowSpeed);
+            transform.position = Vector3.Lerp(transform.position, playerTransform.position + offset, cameraFollowSpeed * Time.deltaTime);
             return;
         }
     }
