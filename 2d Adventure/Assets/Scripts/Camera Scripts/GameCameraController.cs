@@ -8,12 +8,12 @@ public class GameCameraController : MonoBehaviour
     [SerializeField] private Vector3 offset;
     [SerializeField] private float cameraFollowSpeed;
 
-    private Transform playerTransform;
+    private static Transform playerTransform;
     private Vector3 cameraOrigin;
 
     private void Start()
     {
-        playerTransform = GameObject.FindObjectOfType<PlayerMovement>().transform;
+        if (playerTransform == null) { playerTransform = GameObject.FindObjectOfType<PlayerMovement>().transform; }
         if (playerTransform == null)
         {
             Debug.LogError("Couldn't find a player target for the Game Camera");

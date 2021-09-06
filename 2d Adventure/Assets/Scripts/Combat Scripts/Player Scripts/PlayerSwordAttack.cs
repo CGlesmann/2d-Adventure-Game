@@ -8,12 +8,14 @@ public class PlayerSwordAttack : BasePlayerAttack
     [SerializeField] private PlayerMovement playerMovement;
     [SerializeField] private Animator animator;
 
+    private PlayerAnimatorController playerAnimatorController;
     private AttackCollider attackCollider;
 
     protected override void Awake()
     {
         base.Awake();
 
+        playerAnimatorController = playerMovement.GetComponent<PlayerAnimatorController>();
         attackCollider = GetComponent<AttackCollider>();
     }
 
@@ -22,7 +24,8 @@ public class PlayerSwordAttack : BasePlayerAttack
         base.OnAttackBegin();
 
         animator.SetTrigger("Sword_Attack");
-        attackCollider.InitializeAttackCollider(baseAttackPower);
+        attackCollider.InitializeAttackCollider(playerMovement.transform, baseAttackPower);
+        attackCollider.SetAmountOfAttacks(1, baseAttackCooldown);
         playerMovement.PauseMovement();
     }
 

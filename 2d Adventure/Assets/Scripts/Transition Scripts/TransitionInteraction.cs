@@ -12,11 +12,13 @@ public class TransitionInteraction : BaseInteraction
     public string targetDoorKey;
 
     private PlayerTransitionManager playerTransitionManager;
+    private PlayerInteractionManager playerInteractionManager;
 
     public override void BeginInteraction(GameObject otherInteractor, UnityAction endAction)
     {
         base.BeginInteraction(otherInteractor, endAction);
 
+        playerInteractionManager = otherInteractor.GetComponent<PlayerInteractionManager>();
         playerTransitionManager = otherInteractor.GetComponent<PlayerTransitionManager>();
         SceneTransitionManager.instance.StartSceneTransitionAnimation(EndInteraction);
     }
@@ -24,6 +26,7 @@ public class TransitionInteraction : BaseInteraction
     public override void EndInteraction()
     {
         playerTransitionManager.InitiateSceneTransition(targetSceneName, targetDoorKey);
+        playerInteractionManager.ResetInteractionState();
         base.EndInteraction();
     }
 

@@ -7,15 +7,12 @@ public class CombatStats
 {
     public float entityHealth;
     public float entityDefense;
+    public float damageRecoveryTime;
 
-    private float remainingHealth;
+    [HideInInspector] public float remainingHealth { get; private set; }
 
-    public void InitializeStats()
-    {
-        remainingHealth = entityHealth;
-        Debug.Log($"Starting Health {remainingHealth}");
-    }
+    public void InitializeStats() { remainingHealth = entityHealth; }
 
     public bool IsDefeated() { return remainingHealth <= 0f; }
-    public void TakeDamage(float damage) { Debug.Log($"Taking {damage} damage"); remainingHealth -= damage; Debug.Log($"{remainingHealth} remaining health"); }
+    public void TakeDamage(float damage) { remainingHealth -= damage; }
 }

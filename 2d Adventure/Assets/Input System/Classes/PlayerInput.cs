@@ -137,6 +137,14 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Analog"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Fireball"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""3943c2f5-9528-4307-95b6-255a14314e8c"",
+                    ""expectedControlType"": ""Analog"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -159,6 +167,28 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
                     ""action"": ""Sword_Attack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""23efa6c9-7019-430d-a02e-9a097f27d5a0"",
+                    ""path"": ""<Keyboard>/f"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard_Mouse"",
+                    ""action"": ""Fireball"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ba20a80d-fd89-4251-8657-7d08a2efd76d"",
+                    ""path"": ""<Gamepad>/leftTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Fireball"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -434,6 +464,7 @@ public class @PlayerInput : IInputActionCollection, IDisposable
         // Combat
         m_Combat = asset.FindActionMap("Combat", throwIfNotFound: true);
         m_Combat_Sword_Attack = m_Combat.FindAction("Sword_Attack", throwIfNotFound: true);
+        m_Combat_Fireball = m_Combat.FindAction("Fireball", throwIfNotFound: true);
         // Interaction
         m_Interaction = asset.FindActionMap("Interaction", throwIfNotFound: true);
         m_Interaction_NPC_Interact = m_Interaction.FindAction("NPC_Interact", throwIfNotFound: true);
@@ -534,11 +565,13 @@ public class @PlayerInput : IInputActionCollection, IDisposable
     private readonly InputActionMap m_Combat;
     private ICombatActions m_CombatActionsCallbackInterface;
     private readonly InputAction m_Combat_Sword_Attack;
+    private readonly InputAction m_Combat_Fireball;
     public struct CombatActions
     {
         private @PlayerInput m_Wrapper;
         public CombatActions(@PlayerInput wrapper) { m_Wrapper = wrapper; }
         public InputAction @Sword_Attack => m_Wrapper.m_Combat_Sword_Attack;
+        public InputAction @Fireball => m_Wrapper.m_Combat_Fireball;
         public InputActionMap Get() { return m_Wrapper.m_Combat; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -551,6 +584,9 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                 @Sword_Attack.started -= m_Wrapper.m_CombatActionsCallbackInterface.OnSword_Attack;
                 @Sword_Attack.performed -= m_Wrapper.m_CombatActionsCallbackInterface.OnSword_Attack;
                 @Sword_Attack.canceled -= m_Wrapper.m_CombatActionsCallbackInterface.OnSword_Attack;
+                @Fireball.started -= m_Wrapper.m_CombatActionsCallbackInterface.OnFireball;
+                @Fireball.performed -= m_Wrapper.m_CombatActionsCallbackInterface.OnFireball;
+                @Fireball.canceled -= m_Wrapper.m_CombatActionsCallbackInterface.OnFireball;
             }
             m_Wrapper.m_CombatActionsCallbackInterface = instance;
             if (instance != null)
@@ -558,6 +594,9 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                 @Sword_Attack.started += instance.OnSword_Attack;
                 @Sword_Attack.performed += instance.OnSword_Attack;
                 @Sword_Attack.canceled += instance.OnSword_Attack;
+                @Fireball.started += instance.OnFireball;
+                @Fireball.performed += instance.OnFireball;
+                @Fireball.canceled += instance.OnFireball;
             }
         }
     }
@@ -678,6 +717,7 @@ public class @PlayerInput : IInputActionCollection, IDisposable
     public interface ICombatActions
     {
         void OnSword_Attack(InputAction.CallbackContext context);
+        void OnFireball(InputAction.CallbackContext context);
     }
     public interface IInteractionActions
     {

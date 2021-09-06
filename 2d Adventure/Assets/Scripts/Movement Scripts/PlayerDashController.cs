@@ -7,7 +7,7 @@ public class PlayerDashController : MonoBehaviour
 {
     [Header("Dash Settings")]
     [SerializeField] private float dashTime;
-    [SerializeField] private float dashMult;
+    [SerializeField] private float dashSpeed;
     [SerializeField] private float dashMotionTrailSpawnDelay;
     [SerializeField] private float dashMotionLifeTime;
     [SerializeField] private float dashCooldown;
@@ -16,15 +16,20 @@ public class PlayerDashController : MonoBehaviour
     private bool dashing = false;
     private float remainingCooldown = 0;
 
+    private PlayerCombatController playerCombatController;
     private PlayerInputManager playerInputManager;
     private PlayerMovement playerMovement;
+    private MovementController movementController;
     private Animator animator;
+    private Vector3 dashDirection;
 
     private void Awake()
     {
+        playerCombatController = GetComponent<PlayerCombatController>();
         animator = GetComponent<Animator>();
         playerInputManager = GetComponent<PlayerInputManager>();
         playerMovement = GetComponent<PlayerMovement>();
+        movementController = GetComponent<MovementController>();
 
         EnableDash();
     }
@@ -32,6 +37,10 @@ public class PlayerDashController : MonoBehaviour
     private void Update()
     {
         if (remainingCooldown > 0) { remainingCooldown -= Time.deltaTime; }
+        if (dashing)
+        {
+            movementController.Move(transform, dashDirection * dashSpeed * Time.deltaTime);
+        }
     }
 
     public void EnableDash() { playerInputManager.SubscribeToInputActionEvent("Dash", OnDash); }
@@ -40,22 +49,26 @@ public class PlayerDashController : MonoBehaviour
 
     public void OnDash(InputAction.CallbackContext context)
     {
-        if (animator == null || dashing || remainingCooldown > 0) { return; }
+        if (animator == null || dashing || remainingCooldown > 0 || playerMovement.currentInputMoveSpeed == Vector2.zero) { return; }
 
         dashing = true;
         animator.SetBool("Dashing", true);
 
-        playerMovement.moveSpeed *= dashMult;
+        //playerMovement.moveSpeed *= dashMult;
+        dashDirection = playerMovement.currentInputMoveSpeed;
+        playerMovement.PauseMovement();
         remainingCooldown = dashCooldown;
 
-        StartCoroutine(DashTimer());
+        playerCombatController.BeginTimedInvulnerabilityPeriod(dashTime);
+        StartCoroutine(Dashing());
     }
 
-    private IEnumerator DashTimer()
+    private IEnumerator Dashing()
     {
         float remainingTime = dashTime;
         while (remainingTime > 0)
         {
+            //transform.position += dashDirection * dashSpeed * dashMotionTrailSpawnDelay; // * Time.deltaTime;
             remainingTime -= dashMotionTrailSpawnDelay;
 
             GameObject newTrail = GameObject.Instantiate(dashMotionTrailObject);
@@ -71,7 +84,8 @@ public class PlayerDashController : MonoBehaviour
         }
 
         animator.SetBool("Dashing", false);
-        playerMovement.moveSpeed /= dashMult;
+        //playerMovement.moveSpeed /= dashMult;
+        playerMovement.UnpauseMovement();
         dashing = false;
     }
 }

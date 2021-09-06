@@ -18,17 +18,20 @@ public class PlayerInteractionManager : MonoBehaviour
 
     private bool interactionSelectionInProgress;
     private bool interactionInProgress;
+    private bool subscribedInputInteraction;
 
-    private void Awake()
+    private void Start()
     {
         inputManager = GetComponent<PlayerInputManager>();
         playerMovement = GetComponent<PlayerMovement>();
         animatorController = GetComponent<PlayerAnimatorController>();
+
+        subscribedInputInteraction = false;
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (interactionLayer == (interactionLayer | (1 << other.gameObject.layer)))
+        if (!subscribedInputInteraction && interactionLayer == (interactionLayer | (1 << other.gameObject.layer)))
         {
             InteractionManager interactionManager = other.GetComponent<InteractionManager>();
             if (interactionManager == null)
@@ -38,6 +41,7 @@ public class PlayerInteractionManager : MonoBehaviour
             }
 
             this.interactionManager = interactionManager;
+            subscribedInputInteraction = true;
             inputManager.SubscribeToInputActionEvent(NPC_INTERACT_ACTION_KEY, OnInteract);
         }
     }
@@ -46,10 +50,9 @@ public class PlayerInteractionManager : MonoBehaviour
     {
         if (interactionLayer == (interactionLayer | (1 << other.gameObject.layer)))
         {
-            if (this.interactionManager != null && this.interactionManager == other.GetComponent<InteractionManager>())
+            if (subscribedInputInteraction || (this.interactionManager != null && this.interactionManager == other.GetComponent<InteractionManager>()))
             {
-                this.interactionManager = null;
-                UnsubscribeInteractionAction();
+                ResetInteractionState();
             }
         }
     }
@@ -129,4 +132,10 @@ public class PlayerInteractionManager : MonoBehaviour
     }
 
     public void UnsubscribeInteractionAction() { inputManager.UnsubscribeToInputActionEvent(NPC_INTERACT_ACTION_KEY, OnInteract); }
+    public void ResetInteractionState()
+    {
+        this.interactionManager = null;
+        subscribedInputInteraction = false;
+        UnsubscribeInteractionAction();
+    }
 }

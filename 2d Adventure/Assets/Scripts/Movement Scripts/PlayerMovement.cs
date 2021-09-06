@@ -15,7 +15,7 @@ public class PlayerMovement : MonoBehaviour
     public Vector2 currentInputMoveSpeed { get; private set; }
     private bool canMove = true;
 
-    public void Awake()
+    public void Start()
     {
         movementController = GetComponent<MovementController>();
         animationController = GetComponent<PlayerAnimatorController>();
@@ -35,8 +35,8 @@ public class PlayerMovement : MonoBehaviour
 
     // Pausing Movement allows for Input to continue to be collected without moving the player
     // Example of Use: Player should begin walking immediately after attack completes, use this
-    public void PauseMovement() { canMove = false; }
-    public void UnpauseMovement() { canMove = true; }
+    public void PauseMovement() { animationController.PauseWalkAnimationUpdate(); canMove = false; }
+    public void UnpauseMovement() { animationController.UnpauseWalkAnimationUpdate(); canMove = true; }
 
     // Diabling Movement, stops the player movement and input completely
     // Example of Use: NPC Interaction begins, no need for input to be collected in background.

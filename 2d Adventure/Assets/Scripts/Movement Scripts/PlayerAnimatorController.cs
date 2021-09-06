@@ -10,6 +10,8 @@ public class PlayerAnimatorController : MonoBehaviour
     private PlayerMovement playerMovement;
     private PlayerInputManager inputManager;
     private Animator anim;
+    private Vector3 animatorInputVector;
+    private bool updateAnimator = true;
 
     private void Awake()
     {
@@ -29,6 +31,14 @@ public class PlayerAnimatorController : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        if (updateAnimator)
+        {
+            UpdateAnimatorWalkingParameters(animatorInputVector);
+        }
+    }
+
     private void OnDestroy() { DisableWalkAnimationUpdate(); }
 
     public void EnableWalkAnimationUpdate() { inputManager.SubscribeToInputActionEvent(WALKING_ACTION_KEY, OnWalk); }
@@ -39,6 +49,9 @@ public class PlayerAnimatorController : MonoBehaviour
         SetCharacterToIdle();
     }
 
+    public void PauseWalkAnimationUpdate() { updateAnimator = false; }
+    public void UnpauseWalkAnimationUpdate() { updateAnimator = true; }
+
     public void SetCharacterToIdle()
     {
         UpdateAnimatorWalkingParameters(Vector2.zero);
@@ -48,8 +61,8 @@ public class PlayerAnimatorController : MonoBehaviour
     {
         if (anim == null) { return; }
 
-        Vector2 inputValue = context.ReadValue<Vector2>();
-        UpdateAnimatorWalkingParameters(inputValue);
+        animatorInputVector = context.ReadValue<Vector2>();
+        // UpdateAnimatorWalkingParameters(inputValue);
     }
 
     public void UpdateAnimatorWalkingParameters(Vector2 newMoveSpeed)
